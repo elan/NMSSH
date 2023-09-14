@@ -1,10 +1,15 @@
 ## Updates and Fixes
 
 ### SSH Connection Issue Fix (Specific to iOS)
-**Problem Description**
+**Problem and Root Cause**
 
-When attempting to establish an SSH connection using an iOS device, you may encounter a failure in key exchange. Specifically, the connection fails when using the `ecdh-sha2-nistp256` algorithm for key exchange.
+When attempting to establish an SSH connection using an iOS device, the connection may fail due to the older version of the libssh library not supporting the `ecdh-sha2-nistp256` algorithm for key exchange. The error message would be like this:
 
-**Root Cause**
+```
+NMSSH: Socket connection to xxx.xxx.xx.xx on port 22 succesful
+NMSSH: Failure establishing SSH session
+```
 
-This issue arises due to the older version of the libssh library not supporting the `ecdh-sha2-nistp256` algorithm.
+**Solution**
+
+To resolve this issue, I have updated the libssh library in this fork to a version that supports the `ecdh-sha2-nistp256` algorithm. Simply use this fork in your project to benefit from the fix.
