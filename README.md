@@ -1,6 +1,6 @@
-##Updates and Fixes
+## Updates and Fixes
 
-###SSH Connection Issue Fix (Specific to iOS)
+### SSH Connection Issue Fix (Specific to iOS)
 **Problem Description**
 
 When attempting to establish an SSH connection using an iPad, you may encounter a failure in key exchange. Specifically, the connection fails when using the ecdh-sha2-nistp256 algorithm for key exchange.
