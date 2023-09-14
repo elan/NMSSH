@@ -12,4 +12,5 @@ NMSSH: Failure establishing SSH session
 
 **Solution**
 
-To resolve this issue, I have updated the libssh library in this fork to a version that supports the `ecdh-sha2-nistp256` algorithm. Simply use this fork in your project to benefit from the fix.
+To resolve this issue, I have updated the libssh library in this fork to a version that supports the `ecdh-sha2-nistp256` algorithm. Simply use this fork in your project to benefit from the fix:
+pod 'NMSSH', :git => 'https://github.com/speam/NMSSH.git'
