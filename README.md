@@ -1,3 +1,19 @@
+## Dependencies
+
+### libssh
+
+https://github.com/apotocki/libssh2-iosx.git
+
+- Using OpenSSL 1.1.1w
+
+### OpenSSL
+
+- Using Pod
+
+```
+pod 'OpenSSL-Universal', '1.1.2301'
+```
+
 ## Updates and Fixes
 
 ### SSH Connection Issue Fix (Specific to iOS)
