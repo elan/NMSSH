@@ -60,8 +60,11 @@
 }
 
 - (void)disconnect {
-    libssh2_sftp_shutdown(self.sftpSession);
-    [self setConnected:NO];
+    if (self.connected) {
+        libssh2_sftp_shutdown(self.sftpSession);
+        [self setConnected:NO];
+        self.sftpSession = nil;
+    }
 }
 
 // -----------------------------------------------------------------------------
