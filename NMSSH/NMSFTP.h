@@ -307,4 +307,6 @@
  */
 - (BOOL)copyContentsOfPath:(nonnull NSString *)fromPath toFileAtPath:(nonnull NSString *)toPath progress:(BOOL (^_Nullable)(NSUInteger copied, NSUInteger totalBytes))progress;
 
+- (BOOL)chmodItemAtPath:(nonnull NSString *)path mode:(unsigned long)mode;
+
 @end

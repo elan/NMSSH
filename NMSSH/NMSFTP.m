@@ -555,4 +555,18 @@
     return YES;
 }
 
+- (BOOL)chmodItemAtPath:(NSString *)path mode:(unsigned long)mode {
+  LIBSSH2_SFTP_ATTRIBUTES attributes;
+  memset(&attributes, 0, sizeof(attributes));
+  
+  attributes.flags = LIBSSH2_SFTP_ATTR_PERMISSIONS;
+  attributes.permissions = mode;
+  int rc = libssh2_sftp_setstat(self.sftpSession, [path UTF8String], &attributes);
+  if (rc != 0) {
+    NSError *error = [self.session lastError];
+    NMSSHLogError(@"Could not chmod file at path %@ (Error %d: %@)", path, rc, error.localizedDescription);
+  }
+  return (rc == 0);
+}
+
 @end
