@@ -307,6 +307,21 @@
  */
 - (BOOL)copyContentsOfPath:(nonnull NSString *)fromPath toFileAtPath:(nonnull NSString *)toPath progress:(BOOL (^_Nullable)(NSUInteger copied, NSUInteger totalBytes))progress;
 
+/**
+  Change remote file's permission bits.
+ 
+  @param path File path
+  @param mode Mode (rwxrwxrwx) to set
+ */
 - (BOOL)chmodItemAtPath:(nonnull NSString *)path mode:(unsigned long)mode;
+
+/**
+ Change remote file's timestamp.
+ 
+ @param path File path
+ @param atime Access time
+ @param mtime Modification time
+ */
+- (BOOL)touchItemAtPath:(nonnull NSString *)path atime:(unsigned long)atime mtime:(unsigned long)mtime;
 
 @end

@@ -583,4 +583,20 @@
   return (rc == 0);
 }
 
+- (BOOL)touchItemAtPath:(nonnull NSString *)path atime:(unsigned long)atime mtime:(unsigned long)mtime {
+  LIBSSH2_SFTP_ATTRIBUTES attributes;
+  memset(&attributes, 0, sizeof(attributes));
+  
+  attributes.flags = LIBSSH2_SFTP_ATTR_ACMODTIME;
+  attributes.atime = atime;
+  attributes.mtime = mtime;
+  
+  int rc = libssh2_sftp_setstat(self.sftpSession, [path UTF8String], &attributes);
+  if (rc != 0) {
+    NSError *error = [self.session lastError];
+    NMSSHLogError(@"Could not touch file at path %@ (Error %d: %@)", path, rc, error.localizedDescription);
+  }
+  return (rc == 0);
+}
+
 @end
