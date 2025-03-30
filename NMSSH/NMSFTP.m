@@ -43,10 +43,12 @@
 // -----------------------------------------------------------------------------
 
 - (BOOL)connect {
-    // Set blocking mode
-    libssh2_session_set_blocking(self.session.rawSession, 1);
-
-    [self setSftpSession:libssh2_sftp_init(self.session.rawSession)];
+    @synchronized([NMSFTP class]) {
+        // Set blocking mode
+        libssh2_session_set_blocking(self.session.rawSession, 1);
+        
+        [self setSftpSession:libssh2_sftp_init(self.session.rawSession)];
+    }
 
     if (!self.sftpSession) {
         NMSSHLogError(@"Unable to init SFTP session");
@@ -61,9 +63,12 @@
 
 - (void)disconnect {
     if (self.connected) {
-        libssh2_sftp_shutdown(self.sftpSession);
-        [self setConnected:NO];
-        self.sftpSession = nil;
+        @synchronized([NMSFTP class]) {
+            libssh2_sftp_shutdown(self.sftpSession);
+            
+            [self setConnected:NO];
+            self.sftpSession = nil;
+        }
     }
 }
 
@@ -181,7 +186,10 @@
 
     LIBSSH2_SFTP_ATTRIBUTES fileAttributes;
     ssize_t rc = libssh2_sftp_fstat(handle, &fileAttributes);
-    libssh2_sftp_close(handle);
+  
+    @synchronized([NMSFTP class]) {
+        libssh2_sftp_close(handle);
+    }
 
     if (rc < 0) {
         return nil;
@@ -194,7 +202,10 @@
 }
 
 - (LIBSSH2_SFTP_HANDLE *)openFileAtPath:(NSString *)path flags:(unsigned long)flags mode:(long)mode {
-    LIBSSH2_SFTP_HANDLE *handle = libssh2_sftp_open(self.sftpSession, [path UTF8String], flags, mode);
+  LIBSSH2_SFTP_HANDLE *handle;
+    @synchronized([NMSFTP class]) {
+        handle = libssh2_sftp_open(self.sftpSession, [path UTF8String], flags, mode);
+    }
 
     if (!handle) {
         NSError *error = [self.session lastError];
